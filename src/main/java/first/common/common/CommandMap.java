@@ -29,7 +29,7 @@ public class CommandMap {
 		return map.containsValue(value);
 	}
 	
-	public void clear() {
+	public void clear() { 
 		map.clear();
 	}
 	

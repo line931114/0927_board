@@ -7,7 +7,9 @@
 <%@ include file="/WEB-INF/include-header.jspf" %>
 </head>
 <body>
+<pre>
 	<table class="board_view">
+	
 		<colgroup>
 			<col width="15%"/>
 			<col width="35%"/>
@@ -19,30 +21,30 @@
 		<tbody>
 			<tr>
 				<th scope="row">글 번호 </th>
-				<td>${map.idx }</td>
+				<td>${map.IDX }</td>
 				<th scope="row">조회수</th>
-				<td>${map.hit_cnt }</td>
+				<td>${map.HIT_CNT }</td>
 			</tr>
 			
 			<tr>
 				<th scope="row">작성자</th>
-				<td>${map.crea_id }</td>
+				<td>${map.CREA_ID }</td>
 				
 				<th scope="row">작성시간</th>
-				<td>${map.crea_dtm }</td>
+				<td>${map.CREA_DTM }</td>
 			</tr>
 			
 			<tr>
 				<th scope="row"> 제목</th>
-				<td colspan="3">${map.title }</td>
+				<td colspan="3">${map.TITLE }</td>
 			</tr>
 			
 			<tr>
-				<td colspan="4">${map.contents }</td>
+				<td colspan="4">${map.CONTENTS }</td>
 			</tr>
 		</tbody>
 	</table>
-
+</pre>
 
 	<a href="#this" class="btn" id="list">목록으로</a>
 	<a href="#this" class="btn" id="update">수정하기</a>
@@ -55,7 +57,7 @@
 				fn_openBoardList();
 			});
 			
-			$("#update").on("click",function(e)){
+			$("#update").on("click",function(e){
 				e.preventDefault();
 				fn_openBoardUpdate();
 			});

@@ -42,6 +42,7 @@ public class SampleServiceImpl implements SampleService{
 
 	public void updateBoard(Map<String, Object> map) throws Exception {
 		// TODO Auto-generated method stub
+		sampleDAO.updateBoard(map);
 		
 	}
 

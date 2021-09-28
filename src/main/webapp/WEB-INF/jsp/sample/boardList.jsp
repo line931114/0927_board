@@ -31,7 +31,7 @@
 						<td>${row.IDX }</td>
 						<td class="title">
 							<a href="#this" name="title">${row.TITLE }</a>
-							<input type="hidden" id="idx" value="${row.IDX }">
+							<input type="hidden" id="IDX" value="${row.IDX }">
 						</td>
 						
 						<td>${row.HIT_CNT }</td>
@@ -56,7 +56,7 @@
 	
 	$(document).ready(function(){
 		$("#write").on("click", function(e){ //글쓰기버튼
-			e.preventDefault();
+			e.preventDefault(); //이벤트전파관련, 버튼클릭했을 때 한번만 실행하도록
 			fn_openBoardWrite();
 	});	
 	

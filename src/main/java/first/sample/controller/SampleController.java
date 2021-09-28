@@ -53,17 +53,32 @@ public class SampleController {
 		ModelAndView mv = new ModelAndView("/sample/boardDetail");
 		
 		Map<String, Object> map = sampleService.selectBoardDetail(cm.getMap());
+		/*
+		 * System.out.println(cm.getMap()); System.out.println(map);
+		 */
 		mv.addObject("map", map);
 		
 		
 		return mv;
 	}
+	
+	@RequestMapping(value="/sample/openBoardUpdate.do")
+	public ModelAndView openBoardUpdate(CommandMap commandMap) throws Exception{
+		ModelAndView mv = new ModelAndView("/sample/boardUpdate");
+		
+		Map<String,Object> map = sampleService.selectBoardDetail(commandMap.getMap());
+		mv.addObject("map", map);
+		
+		return mv;
+	}
+	
+	
 	@RequestMapping(value="/sample/updateBoard.do")
 	public ModelAndView updateBoard(CommandMap cm) throws Exception {
 		ModelAndView mv = new ModelAndView("redirect:/sample/openBoardDetail.do");
 		
 		sampleService.updateBoard(cm.getMap());
-		mv.addObject("idx", cm.get("idx"));		
+		mv.addObject("IDX", cm.get("IDX"));		
 		return mv;
 	}
 	@RequestMapping(value="/sample/deleteBoard.do")
