@@ -9,20 +9,43 @@
 			select idx,title,hit_cnt,crea_dtm
 			from tb_board
 			where del_gb = 'N'
-			order by idx desc
-			
-		
+			order by idx desc	
 	]]>
 	</select>
 
-	<insert id="insertBoard" parameterType="hashmap">
-	
+	<select id="selectFileList" parameterType="hashmap" resultType="hashmap">
+		<![CDATA[			
+			select IDX,ORIGINAL_FILE_NAME,round(file_size/1024,1) as file_size
+			from tb_file
+			where del_gb = 'N' and board_idx =#{IDX}
+				
+	]]>
+	</select>
+
+
+	<insert id="insertBoard" parameterType="hashmap" useGeneratedKeys="true" keyProperty="IDX">
+	<selectKey keyProperty="IDX" resultType="string" order="BEFORE">
+		select seq_tb_board_idx.nextval from dual
+	</selectKey>
 	<![CDATA[
 		insert into tb_board
 		(idx,title,contents,hit_cnt,del_gb,crea_dtm,crea_id)
-		values(seq_tb_board_idx.nextval,#{title},#{contents},0,'N',SYSDATE,'Admin')
+		values(#{IDX},#{title},#{contents},0,'N',SYSDATE,'Admin')
 	]]>
 	</insert>
+	
+	
+	<insert id="insertFile" parameterType="hashmap">
+	
+	<![CDATA[
+		insert into tb_file
+		(idx,board_idx,original_file_name,stored_file_name,file_size,crea_id)
+		values (seq_tb_file_idx.nextval,#{BOARD_IDX},#{ORIGINAL_FILE_NAME},#{STORED_FILE_NAME},#{FILE_SIZE},'Admin')
+	]]>
+	</insert>
+	
+	
+	
 
 
 	<update id="updateHitCnt" parameterType="hashmap">
@@ -30,7 +53,7 @@
 	<![CDATA[
 		update tb_board
 		set hit_cnt = nvl(hit_cnt,0) + 1
-		where idx= #{idx}
+		where IDX= #{IDX}
 	
 	]]>
 	</update>
@@ -39,15 +62,15 @@
 		<![CDATA[
 		select idx,hit_cnt,crea_id,crea_dtm,title,contents
 		from tb_board
-		where idx=#{idx}
+		where IDX=#{IDX}
 	]]>
 	</select>
 
 	<update id="updateBoard" parameterType="hashmap">
 		<![CDATA[
 		update tb_board
-		set title=#{title}, contents = #{contents}
-		where idx=#{idx}
+		set title=#{TITLE}, contents = #{CONTENTS}
+		where idx=#{IDX}
 	]]>
 	</update>
 
@@ -55,7 +78,7 @@
 		<![CDATA[
 		update tb_board
 		set del_gb ='Y'
-		where idx=#{idx}
+		where idx=#{IDX}
 	]]>
 	</update>
 </mapper>

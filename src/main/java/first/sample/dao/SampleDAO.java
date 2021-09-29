@@ -15,9 +15,24 @@ public class SampleDAO extends AbstractDAO{
 		return (List<Map<String,Object>>)selectList("sample.selectBoardList",map);
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> selectFileList(Map<String, Object> map) throws Exception{
+		// TODO Auto-generated method stub
+		return (List<Map<String,Object>>)selectList("sample.selectFileList",map);
+	}
+
+	
+	
+	
 	public void insertBoard(Map<String,Object> map)throws Exception {
 		insert("sample.insertBoard",map);
 	}
+	
+	public void insertFile(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		insert("sample.insertFile",map);
+	}  
+	
 	
 	public void updateHitCnt(Map<String,Object> map)throws Exception{
 		update("sample.updateHitCnt",map);
@@ -37,5 +52,8 @@ public class SampleDAO extends AbstractDAO{
 	public void deleteBoard(Map<String,Object> map) throws Exception {
 		update("sample.deleteBoard",map);
 	}
+
+
+	
 	
 }

@@ -5,75 +5,88 @@
 <%@ include file="/WEB-INF/include/include-header.jspf" %>
 </head>
 <body>
-    <h2>게시판 목록</h2>
-    <table class="board_list">
-        <colgroup>
-            <col width="10%"/>
-            <col width="*"/>
-            <col width="15%"/>
-            <col width="20%"/>
-        </colgroup>
-        <thead>
-            <tr>
-                <th scope="col">글번호</th>
-                <th scope="col">제목</th>
-                <th scope="col">조회수</th>
-                <th scope="col">작성일</th>
-            </tr>
-        </thead>
-        <tbody>
-            <c:choose>
-                <c:when test="${fn:length(list) > 0}">
-                    <c:forEach items="${list }" var="row">
-                        <tr>
-                            <td>${row.IDX }</td>
-                            <td class="title">
-                                <a href="#this" name="title">${row.TITLE }</a>
-                                <input type="hidden" id="IDX" value="${row.IDX }">
-                            </td>
-                            <td>${row.HIT_CNT }</td>
-                            <td>${row.CREA_DTM }</td>
-                        </tr>
-                    </c:forEach>
-                </c:when>
-                <c:otherwise>
-                    <tr>
-                        <td colspan="4">조회된 결과가 없습니다.</td>
-                    </tr>
-                </c:otherwise>
-            </c:choose>
-        </tbody>
-    </table>
-    <br/>
-    <a href="#this" class="btn" id="write">글쓰기</a>
-     
-    <%@ include file="/WEB-INF/include/include-body.jspf" %>
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $("#write").on("click", function(e){ //글쓰기 버튼
-                e.preventDefault();
-                fn_openBoardWrite();
-            }); 
-             
-            $("a[name='title']").on("click", function(e){ //제목 
-                e.preventDefault();
-                fn_openBoardDetail($(this));
-            });
-        });
-         
-         
-        function fn_openBoardWrite(){
-            var comSubmit = new ComSubmit();
-            comSubmit.setUrl("<c:url value='/sample/openBoardWrite.do' />");
-            comSubmit.submit();
-        }
-         
-        function fn_openBoardDetail(obj){
-            var comSubmit = new ComSubmit();
-            comSubmit.setUrl("<c:url value='/sample/openBoardDetail.do' />");
-            comSubmit.addParam("IDX", obj.parent().find("#IDX").val());
-            comSubmit.submit();
-        }
-    </script> 
+	<form id="frm">
+		<table class="board_view">
+			<colgroup>
+				<col width="15%"/>
+				<col width="35%"/>
+				<col width="15%"/>
+				<col width="35%"/>
+			</colgroup>
+			<caption>게시글 상세</caption>
+			<tbody>
+				<tr>
+					<th scope="row">글 번호</th>
+					<td>
+						${map.IDX }
+						<input type="hidden" id="IDX" name="IDX" value="${map.IDX }">
+					</td>
+					<th scope="row">조회수</th>
+					<td>${map.HIT_CNT }</td>
+				</tr>
+				<tr>
+					<th scope="row">작성자</th>
+					<td>${map.CREA_ID }</td>
+					<th scope="row">작성시간</th>
+					<td>${map.CREA_DTM }</td>
+				</tr>
+				<tr>
+					<th scope="row">제목</th>
+					<td colspan="3">
+						<input type="text" id="TITLE" name="TITLE" class="wdp_90" value="${map.TITLE }"/>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4" class="view_text">
+						<textarea rows="20" cols="100" title="내용" id="CONTENTS" name="CONTENTS">${map.CONTENTS }</textarea>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+	
+	<a href="#this" class="btn" id="list">목록으로</a>
+	<a href="#this" class="btn" id="update">저장하기</a>
+	<a href="#this" class="btn" id="delete">삭제하기</a>
+	
+	<%@ include file="/WEB-INF/include/include-body.jspf" %>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#list").on("click", function(e){ //목록으로 버튼
+				e.preventDefault();
+				fn_openBoardList();
+			});
+			
+			$("#update").on("click", function(e){ //저장하기 버튼
+				e.preventDefault();
+				fn_updateBoard();
+			});
+			
+			$("#delete").on("click", function(e){ //삭제하기 버튼
+				e.preventDefault();
+				fn_deleteBoard();
+			});
+		});
+		
+		function fn_openBoardList(){
+			var comSubmit = new ComSubmit();
+			comSubmit.setUrl("<c:url value='/sample/openBoardList.do' />");
+			comSubmit.submit();
+		}
+		
+		function fn_updateBoard(){
+			var comSubmit = new ComSubmit("frm");
+			comSubmit.setUrl("<c:url value='/sample/updateBoard.do' />");
+			comSubmit.submit();
+		}
+		
+		function fn_deleteBoard(){
+			var comSubmit = new ComSubmit();
+			comSubmit.setUrl("<c:url value='/sample/deleteBoard.do' />");
+			comSubmit.addParam("IDX", $("#IDX").val());
+			comSubmit.submit();
+			
+		}
+	</script>
 </body>
 </html>

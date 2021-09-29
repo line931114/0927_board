@@ -6,7 +6,7 @@
 <%@ include file="/WEB-INF/include-header.jspf" %>
 </head>
 <body>
-	<form id="frm">
+	<form id="frm" name="frm" enctype="multipart/form-data"> 
 		<table class="board_view">
 			<colgroup>
 				<col width="15%">
@@ -22,9 +22,11 @@
 					<td colspan="2" class="view_text">
 						<textarea rows="20" cols="100" title="내용" id="contents" name="contents"></textarea>
 					</td>
-				</tr>
+				</tr>			
 			</tbody>
 		</table>
+		<input type="file" name="file">
+		<br/><br/>
 		
 		<a href="#this" class="btn" id="write">작성하기</a>
 		<a href="#this" class="btn" id="list">목록으로</a>
@@ -32,9 +34,9 @@
 	
 	<%@ include file="/WEB-INF/include-body.jspf" %>
 	<script type="text/javascript">
-		$(document).ready(function)(){
+		$(document).ready(function(){
 			$("#list").on("click", function(e){
-				e.preventDefault();
+			e.preventDefault();
 			fn_openBoardList();
 		});
 			
@@ -46,14 +48,14 @@
 		});
 		
 		function fn_openBoardList(){
-			var comSubmit = new Comsubmit();
+			var comSubmit = new ComSubmit();
 			comSubmit.setUrl("<c:url value='/sample/openBoardList.do'/>");
 			comSubmit.submit();
 		}
 		
 		function fn_insertBoard(){
 			var comSubmit = new ComSubmit("frm");
-			comSubmit.setUrl("<c:url value='/sample/insertNoard.do'/>");
+			comSubmit.setUrl("<c:url value='/sample/insertBoard.do'/>");
 			comSubmit.submit();
 		}
 	
